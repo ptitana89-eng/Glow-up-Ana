@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7e8ee">
+<title>September Glow-Up Ana</title>
+<style>
+:root{--bg:#fff8fb;--card:#fff;--text:#2b2528;--muted:#81747a;--accent:#d982a3;--accent2:#f4d8e3;--border:#eadde2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+main{max-width:720px;margin:auto;padding:20px 16px 40px}.hero{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted)}h1{font-size:28px;margin:5px 0}.sub{color:var(--muted);font-size:14px}.score{text-align:right}.score b{font-size:32px}.score small{display:block;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:16px;margin-top:16px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.bar{height:10px;border:1px solid var(--border);border-radius:99px;overflow:hidden;margin-top:9px}.fill{height:100%;background:var(--accent);width:0;transition:.2s}.muted{color:var(--muted);font-size:13px}.goals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.goal,.day{border:1px solid var(--border);background:#fff;border-radius:15px;padding:12px;text-align:left;color:var(--text);min-height:76px;font:inherit}.goal.on,.day.on{background:var(--accent2);border-color:var(--accent)}.goal .emoji{font-size:21px}.goal strong{display:block;font-size:14px;margin-top:3px}.goal small{color:var(--muted)}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.day{min-height:48px;text-align:center;padding:7px}.day small{display:block;color:var(--muted);margin-top:2px}.rewards{display:grid;gap:8px;margin-top:10px}.reward{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0e7ea;font-size:14px}.reward:last-child{border-bottom:0}.tip{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.actions button{border:1px solid var(--border);background:#fff;border-radius:12px;padding:10px 13px;font:inherit}.primary{background:var(--accent)!important;color:white;border-color:var(--accent)!important}.danger{color:#9d4c62}.install{background:#fff0f5;border:1px solid #f0cbd9;border-radius:15px;padding:12px;font-size:13px;margin-top:16px}.install b{display:block;margin-bottom:4px}
+@media(min-width:560px){.goals{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+<div><div class="eyebrow">SEPTEMBRE 2026 · 30 JOURS</div><h1>🌸 September Glow-Up</h1><div class="sub">Ta meilleure version, sans chercher la perfection.</div></div>
+<div class="score"><b id="total">0</b><small>points</small></div>
+</section>
+
+<section class="card">
+<div class="row"><strong id="level">Niveau 1</strong><span id="streak" class="muted">🔥 0 jour</span></div>
+<div class="bar"><div id="fill" class="fill"></div></div>
+<div class="row muted" style="margin-top:6px"><span id="rank">Débutante</span><span>Objectif : 1000 pts</span></div>
+</section>
+
+<section class="card">
+<div class="row"><strong id="dayTitle">Aujourd’hui · Jour 1</strong><span id="dayScore" class="muted">0 pts</span></div>
+<div class="goals" id="goals"></div>
+<div class="tip">Une journée imparfaite ne remet rien à zéro. Tu reprends simplement le lendemain. ❤️</div>
+</section>
+
+<section class="card">
+<div class="row"><strong>📅 Ton mois</strong><span id="daysDone" class="muted">0/30 jours actifs</span></div>
+<div class="calendar" id="calendar"></div>
+</section>
+
+<section class="card">
+<strong>🏆 Récompenses</strong>
+<div class="rewards">
+<div class="reward"><span>100 pts</span><span>✨ Petit plaisir</span></div>
+<div class="reward"><span>250 pts</span><span>🍽️ Resto / activité</span></div>
+<div class="reward"><span>500 pts</span><span>🛍️ Beau plaisir</span></div>
+<div class="reward"><span>750 pts</span><span>💎 Gros plaisir</span></div>
+<div class="reward"><strong>1000 pts</strong><strong>👑 Best Version Ana</strong></div>
+</div>
+</section>
+
+<section class="install">
+<b>📱 Pour l’avoir comme une vraie appli</b>
+Cette page est autonome et sauvegarde tes données dans le stockage de ton navigateur. Pour l’instant, garde ce fichier sur ton téléphone et ouvre-le avec Safari. Pour une vraie icône sur l’écran d’accueil avec une URL permanente, il faudra ensuite l’héberger sur un service web.
+</section>
+
+<div class="actions">
+<button class="primary" id="today">Aujourd’hui</button>
+<button id="resetDay">Réinitialiser ce jour</button>
+<button class="danger" id="resetAll">Tout réinitialiser</button>
+</div>
+</main>
+
+<script>
+const goals=[
+["🏋️","Sport",30],["🧘","Yoga / mobilité",15],["🚶","8k+ pas",15],
+["🥗","Alimentation équilibrée",25],["🍷","Zéro alcool",20],["💧","Hydratation",10],
+["😴","Sommeil correct",10],["🧴","Self-care",5],["🧠","10 min pour toi",5],
+["⭐","Journée Best Version",20]
+];
+const KEY="ana_september_glow_2026_v1";
+let state={days:{},selected:1};
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)state={...state,...x,days:x.days||{}}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function getDay(d){return state.days[d]||{done:[]}}
+function scoreDay(d){return getDay(d).done.reduce((s,i)=>s+goals[i][2],0)}
+function total(){return Array.from({length:30},(_,i)=>scoreDay(i+1)).reduce((a,b)=>a+b,0)}
+function activeDays(){return Array.from({length:30},(_,i)=>scoreDay(i+1)>0).filter(Boolean).length}
+function streak(){let n=0;for(let d=30;d>=1;d--){if(scoreDay(d)>0)n++;else if(n)break}return n}
+function render(){
+ const t=total(), st=streak(), d=state.selected, ds=getDay(d), s=scoreDay(d);
+ document.querySelector("#total").textContent=t;
+ document.querySelector("#level").textContent="Niveau "+(1+Math.floor(t/100));
+ document.querySelector("#streak").textContent="🔥 "+st+" jour"+(st>1?"s":"");
+ document.querySelector("#fill").style.width=Math.min(100,t/10)+"%";
+ document.querySelector("#rank").textContent=t>=1000?"👑 Best Version":t>=750?"💎 Glow-Up":t>=500?"✨ Très motivée":t>=250?"🌱 En progression":"🌸 Débutante";
+ document.querySelector("#dayTitle").textContent=(d===new Date().getDate()&&new Date().getMonth()===8?"Aujourd’hui · ":"Jour ")+d;
+ document.querySelector("#dayScore").textContent=s+" pts";
+ document.querySelector("#daysDone").textContent=activeDays()+"/30 jours actifs";
+ const ge=document.querySelector("#goals");ge.innerHTML="";
+ goals.forEach((g,i)=>{const b=document.createElement("button");b.className="goal"+(ds.done.includes(i)?" on":"");b.innerHTML=`<span class="emoji">${g[0]}</span><strong>${g[1]}</strong><small>+${g[2]} pts</small>`;b.onclick=()=>{const arr=getDay(d).done;const p=arr.indexOf(i);if(p>=0)arr.splice(p,1);else arr.push(i);state.days[d]={done:arr};save();render()};ge.appendChild(b)});
+ const cal=document.querySelector("#calendar");cal.innerHTML="";
+ for(let day=1;day<=30;day++){const b=document.createElement("button");b.className="day"+(day===d?" on":"");b.innerHTML=`<strong>${day}</strong><small>${scoreDay(day)}</small>`;b.onclick=()=>{state.selected=day;save();render()};cal.appendChild(b)}
+}
+document.querySelector("#today").onclick=()=>{state.selected=(new Date().getMonth()===8&&new Date().getFullYear()===2026)?new Date().getDate():1;save();render()};
+document.querySelector("#resetDay").onclick=()=>{if(confirm("Réinitialiser seulement ce jour ?")){delete state.days[state.selected];save();render()}};
+document.querySelector("#resetAll").onclick=()=>{if(confirm("Supprimer tout le challenge ?")){state={days:{},selected:1};save();render()}};
+load();render();
+</script>
+</body>
+</html>
